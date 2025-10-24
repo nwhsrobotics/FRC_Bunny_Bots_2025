@@ -16,6 +16,6 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
 
-    int MOTOR_ID = 2;
+    int TEST_VAR = 0;
   }
 }
