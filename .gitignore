@@ -138,6 +138,8 @@ $RECYCLE.BIN/
 ### Gradle ###
 .gradle
 /build/
+# Ignore .pdb files (large program output files)
+*.pdb
 
 # Ignore Gradle GUI config
 gradle-app.setting
