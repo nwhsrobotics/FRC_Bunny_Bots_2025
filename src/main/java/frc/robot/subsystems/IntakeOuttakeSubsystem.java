@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class VisionAprilTag extends SubsystemBase {
-  /** Creates a new VisionAprilTag. */
-  public VisionAprilTag() {}
+public class IntakeOuttakeSubsystem extends SubsystemBase {
+  /** Creates a new IntakeOuttakeSubsystem. */
+  public IntakeOuttakeSubsystem() {}
 
   @Override
   public void periodic() {
