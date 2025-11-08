@@ -94,6 +94,14 @@ public final class RobotCANUtils {
                     .allowedClosedLoopError(err);
             finishConfigure(this, cfg);
         }
+
+        public CANSparkMaxController(int id, MotorKind kind, SparkMaxConfig cfg, IdleMode mode){
+            super(id, MotorType.kBrushless);
+            clearFaults();
+            applySettings(cfg, kind, mode, 0);
+            finishConfigure(this, cfg);
+        }
+
     }
 
     public static class CANSparkFlexController extends SparkFlex {
