@@ -2,4 +2,4 @@
 
 The official JagBots4638 GitHub repository for the 2025 Blair Bunnybots. 
 
-![JagBots Logo](jagbots4638_logo.png)
+<img src="jagbots4638_logo.png" href="https://jagbots4638.com" target="_blank">
