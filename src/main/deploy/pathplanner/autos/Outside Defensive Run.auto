@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot - Third"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Third - First"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First - Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Defensive Run"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
