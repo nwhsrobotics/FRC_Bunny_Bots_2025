@@ -24,7 +24,7 @@
         "y": 1.019360073965094
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": null
     }
   ],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 178.97696981133222
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,

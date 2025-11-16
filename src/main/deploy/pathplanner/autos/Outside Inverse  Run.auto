@@ -7,19 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot-First"
+            "pathName": "Start - First"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of Copy of Shoot-First"
+            "pathName": "First - Shoot2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of Copy of Copy of Shoot-First"
+            "pathName": "Second - Thrid"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Third - Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Offensive Run Upper"
           }
         }
       ]

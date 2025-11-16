@@ -8,6 +8,8 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+
 import edu.wpi.first.hal.PowerDistributionFaults;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -99,6 +101,25 @@ public final class RobotCANUtils {
             super(id, MotorType.kBrushless);
             clearFaults();
             applySettings(cfg, kind, mode, 0);
+            finishConfigure(this, cfg);
+        }
+
+        // USE THIS CONSTRUCTOR FOR ABSALUTE ENCODER
+        public CANSparkMaxController(int id, MotorKind kind, SparkMaxConfig cfg, IdleMode mode, double p, double i, double d, double maxVel, double maxAccel, double err, boolean invertion) {
+            super(id, MotorType.kBrushless);
+            clearFaults();
+            applySettings(cfg, kind, mode, 0);
+            cfg.closedLoop
+                    .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                    .p(p).i(i).d(d)
+                    .maxMotion
+                    .maxVelocity(maxVel)
+                    .maxAcceleration(maxAccel)
+                    .allowedClosedLoopError(err);
+
+            cfg.absoluteEncoder
+                    .setSparkMaxDataPortConfig()
+                    .inverted(invertion);
             finishConfigure(this, cfg);
         }
 
