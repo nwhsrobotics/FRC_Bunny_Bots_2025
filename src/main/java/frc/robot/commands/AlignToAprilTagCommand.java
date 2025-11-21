@@ -1,12 +1,11 @@
 
 //imports that we need
 package frc.robot.commands; //command imports
-import frc.robot.util.LimelightHelpers; //limelight library
-import edu.wpi.first.math.MathUtil;//might need to use later
-import edu.wpi.first.math.geometry.Pose2d; //might need to use later
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.Command; //this is a child class to the parent class of Command
 import frc.robot.subsystems.SwerveSubsystem;//we are connected to the swerve subsystem, as anything that limelight needs to do will be executed through the swerve
-import frc.robot.Constants.DriveConstants;
+import frc.robot.util.LimelightHelpers; //limelight library
 
 /**
  * Vision alignment command that:
@@ -157,6 +156,7 @@ public class AlignToAprilTagCommand extends Command {
         //strafe to remove the y axis error 
         //only moving horizontally, no rotation or forward driving, reflect this in a code line
         //if we are within the tolerance, 
+
     }
 
 
@@ -169,6 +169,25 @@ public class AlignToAprilTagCommand extends Command {
         //get the forward distance to the tag
         //find the error, or the amount we need to move in order to get to our desired position
 
+        boolean checkState = true;
+
+        
+        // In Limelight target-space (when facing the tag):
+        // posLight[0] (X) is the forward distance to the tag (range).
+        double[] posLight = LimelightHelpers.getTargetPose_RobotSpace(limelightName); // The resulting array is [X, Y, Z, Pitch, Yaw, Roll] in meters/degrees.
+        double x = posLight[0];
+
+        double error = x - desiredDistMeters; // This gets the distance betwee nthe robot's limelights and the comic converter at it's desired position
+        double ForwardCmd =  MathUtil.clamp(kDriveKP*error, -kDriveMax, kDriveMax); // Calculate how fast the robot drive towards the target position
+        swerve.drive(ForwardCmd ,0.0, 0.0, checkState, checkState); // This just drives the robot towards the converter
+
+        // When the distance form the robot and the converter is close enough stop this function
+        if (Math.abs(error) < kXTolMeters){ 
+            state = State.DONE;
+            swerve.stopModules();
+        }
+        
+
 
     }
 
@@ -177,11 +196,13 @@ public class AlignToAprilTagCommand extends Command {
     @Override
     public boolean isFinished() {
         //switch state to DONE
+        return state == state.DONE;
     }
 
     @Override
     public void end(boolean interrupted) {
         //stop our modules
+        swerve.stopModules();
     }
 
 
