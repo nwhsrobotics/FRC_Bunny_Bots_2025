@@ -34,11 +34,11 @@ public class SwerveJoystickDefaultCmd extends Command {
         if (xbox.getLeftBumperButton()) {
             PathPlannerTrajectoryState trajectoryState = new PathPlannerTrajectoryState();
             //trajectoryState.pose = VisionGP.getFieldPose();
-            trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTags.aprilTags);
+            //trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTagConstants.aprilTags);
             swerveSubsystem.driveRobotRelative(driveController.calculateRobotRelativeSpeeds(swerveSubsystem.getPose(), trajectoryState));
         } else if (xbox.getRightBumperButton()) {
             PathPlannerTrajectoryState trajectoryState = new PathPlannerTrajectoryState();
-            trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTags.aprilTags);
+            //trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTagConstants.aprilTags);
             swerveSubsystem.driveRobotRelative(driveController.calculateRobotRelativeSpeeds(swerveSubsystem.getPose(), trajectoryState));
         } else if (xbox.getLeftTriggerAxis() > 0.1) {  //if reef (target) relative mode pressed
             swerveSubsystem.targetRelativeDrive(Positions.REEF_CENTERS, xbox.getLeftY(), xbox.getLeftX());

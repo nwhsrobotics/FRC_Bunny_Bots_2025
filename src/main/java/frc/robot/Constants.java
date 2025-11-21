@@ -1,20 +1,17 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public final class Constants {
 
@@ -158,6 +155,32 @@ public final class Constants {
 
         public static String llFront = "limelight-llf";
         public static String llBack = "limelight-llb";
+    }
+
+    public static final class AprilTagConstants{
+        private static double m(double in) { return in * 0.0254; }
+
+    // Tag coordinates from the 2025 manual (COSMIC CONVERTERS)
+        public static final Pose2d TAG_5 = new Pose2d(m(4.0),   m(196.125), Rotation2d.fromDegrees(0));     // Blue Converter
+        public static final Pose2d TAG_6 = new Pose2d(m(644.0), m(196.125), Rotation2d.fromDegrees(180));   // Red Converter
+        public static final Pose2d TAG_7 = new Pose2d(m(4.0),   m(20.5),    Rotation2d.fromDegrees(0));     // Blue Converter
+        public static final Pose2d TAG_8 = new Pose2d(m(644.0), m(20.5),    Rotation2d.fromDegrees(180));   // Red Converter
+
+    /** Return pose if ID is a COSMIC CONVERTER tag; otherwise return null. */
+        public static Pose2d getTagPose(int id) {
+            return switch(id) {
+                case 5 -> TAG_5;
+                case 6 -> TAG_6;
+                case 7 -> TAG_7;
+                case 8 -> TAG_8;
+                default -> null;   // ignore STARSPIRE tags (1–4)
+            };
+        }
+        }
+
+    public static final class AutoAlignConstants {
+        public static final double TOUCHING_M = 0.762;   // 30 inches
+        public static final double SHOOTING_M = 1.8288;  // 72 inches
     }
 
 
