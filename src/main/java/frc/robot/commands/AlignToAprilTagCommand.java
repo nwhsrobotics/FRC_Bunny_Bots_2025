@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.Command; //this is a child class to the parent class of Command
 import frc.robot.subsystems.SwerveSubsystem;//we are connected to the swerve subsystem, as anything that limelight needs to do will be executed through the swerve
 import frc.robot.util.LimelightHelpers; //limelight library
-
+//Hello!
 /**
  * Vision alignment command that:
  *   1) Detects only AprilTags 5–8 (your COSMIC CONVERTERS)
@@ -131,6 +131,11 @@ public class AlignToAprilTagCommand extends Command {
     private void handleAcquire() {
         //if the tag is in view, switch the state to ROTATE
         //otherwise, stop the swerve modules and wait
+        if(isValidTagInView()){
+            state = State.ROTATE;
+        } else {
+            swerve.stopModules();
+        }
     }
 
 
@@ -143,6 +148,13 @@ public class AlignToAprilTagCommand extends Command {
         //rotate command 
         //use the rotate commmand, ensure that the x and y coordinates at at the origin(0,0)
         //if we are turned enough, where we are well within the error rate, move on to next phase
+        double tx = LimelightHelpers.getTX(limelightName);
+        double rotCmd = MathUtil.clamp(tx * kRotKP, -kRotMax, kRotMax);
+        swerve.drive(0,0,rotCmd,true,true);
+
+        if(Math.abs(tx) < kTxTolDeg){
+            state = State.STRAFE;
+        }
     }
 
 
