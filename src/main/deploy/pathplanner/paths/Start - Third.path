@@ -3,14 +3,14 @@
   "waypoints": [
     {
       "anchor": {
-<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Second.path
+<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Third.path
         "x": 2.8960465116279064,
         "y": 0.59
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.896074476418807,
-        "y": 0.3400000015640591
+        "x": 2.9032499671276293,
+        "y": 1.0768485885970633
       },
       "isLocked": false,
       "linkedName": "First"
@@ -18,40 +18,40 @@
     {
       "anchor": {
         "x": 2.8960465116279064,
-        "y": 1.3760465116279068
+        "y": 2.2130232558139538
       },
       "prevControl": {
-        "x": 2.9024292002023895,
-        "y": 1.088683040305521
+        "x": 2.896788630479297,
+        "y": 1.6045439458407114
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Second"
+      "linkedName": "Third"
 ========
-        "x": 2.644,
-        "y": 0.761
+        "x": 1.8048245614035086,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1015955202956325,
-        "y": 0.5862133446844131
+        "x": 1.9520251620611833,
+        "y": 1.1580346872522609
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.247,
-        "y": 0.644
+        "x": 2.3180833333333335,
+        "y": 2.068916666666668
       },
       "prevControl": {
-        "x": 2.7565447346512184,
-        "y": 0.8079583939789019
+        "x": 2.1774137335452033,
+        "y": 1.6618942346815273
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
->>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/First - Shoot2.path
+>>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/Start - Third.path
     }
   ],
   "rotationTargets": [],
@@ -68,21 +68,21 @@
   },
   "goalEndState": {
     "velocity": 0,
-<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Second.path
-    "rotation": -90.0
+<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Third.path
+    "rotation": -89.81345921853894
 ========
-    "rotation": 180.0
->>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/First - Shoot2.path
+    "rotation": 166.30995038253445
+>>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/Start - Third.path
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Second.path
+<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Third.path
     "rotation": -90.0
 ========
-    "rotation": 180.0
->>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/First - Shoot2.path
+    "rotation": -179.0
+>>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/Start - Third.path
   },
   "useDefaultConstraints": true
 }

@@ -3,6 +3,8 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Third.path
         "x": 2.8960465116279064,
         "y": 0.59
       },
@@ -26,9 +28,63 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Third"
+========
+        "x": 1.8048245614035086,
+        "y": 0.65
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9520251620611833,
+        "y": 1.1580346872522609
+=======
+        "x": 2.323,
+        "y": 0.783
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.8987888888888893,
+        "y": 0.7827333333333343
+>>>>>>> 20918e55edc7b865f739450ddd305737648232b3
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+<<<<<<< HEAD
+        "x": 2.3180833333333335,
+        "y": 2.068916666666668
+      },
+      "prevControl": {
+        "x": 2.1774137335452033,
+        "y": 1.6618942346815273
+=======
+        "x": 2.8896444444444445,
+        "y": 2.227555555555556
+      },
+      "prevControl": {
+        "x": 2.926222222222222,
+        "y": 0.608988888888889
+>>>>>>> 20918e55edc7b865f739450ddd305737648232b3
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+<<<<<<< HEAD
+>>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/Start - Third.path
     }
   ],
   "rotationTargets": [],
+=======
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4423236514522954,
+      "rotationDegrees": -97.68403888611121
+    }
+  ],
+>>>>>>> 20918e55edc7b865f739450ddd305737648232b3
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +98,29 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Third.path
     "rotation": -89.81345921853894
+========
+    "rotation": 166.30995038253445
+>>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/Start - Third.path
+=======
+    "rotation": -90.0
+>>>>>>> 20918e55edc7b865f739450ddd305737648232b3
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/main/deploy/pathplanner/paths/First - Third.path
     "rotation": -90.0
+========
+    "rotation": -179.0
+>>>>>>>> 20918e55edc7b865f739450ddd305737648232b3:src/main/deploy/pathplanner/paths/Start - Third.path
+=======
+    "rotation": -173.62791185474953
+>>>>>>> 20918e55edc7b865f739450ddd305737648232b3
   },
   "useDefaultConstraints": true
 }
