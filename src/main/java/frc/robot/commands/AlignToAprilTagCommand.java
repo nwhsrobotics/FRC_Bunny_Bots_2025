@@ -1,15 +1,14 @@
-
-//imports that we need
-package frc.robot.commands; //command imports
+package frc.robot.commands;
+import frc.robot.util.LimelightHelpers;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.wpilibj2.command.Command; //this is a child class to the parent class of Command
-import frc.robot.subsystems.SwerveSubsystem;//we are connected to the swerve subsystem, as anything that limelight needs to do will be executed through the swerve
-import frc.robot.util.LimelightHelpers; //limelight library
-//Hello!
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.Constants.DriveConstants;
+
 /**
  * Vision alignment command that:
- *   1) Detects only AprilTags 5–8 (your COSMIC CONVERTERS)
+ *   1) Detects only AprilTags 5–8 (your COSMIC Converters)
  *   2) Rotates robot to face the tag head-on (tx = 0)
  *   3) Horizontally adjusts left/right until centered (target-space Y = 0)
  *   4) Drives forward to a specified distance (target-space X = desiredDist)
@@ -29,21 +28,19 @@ public class AlignToAprilTagCommand extends Command {
         DONE        // Stop and finish
     }
 
-    private final SwerveSubsystem swerve;//the swerve modules that we are using
-    private final String limelightName;//name of our limelight, we will configure this later
+    private final SwerveSubsystem swerve;
+    private final String limelightName;
 
-    private State state = State.ACQUIRE;  // we are always going to start in the ACQUIRE state, more on that later
-    private int lostTagCycles = 0;        // this kind of gives our limelight a grace period, saying oh i lost the april tag for a second, let me wait to see if i can regain it
+    private State state = State.ACQUIRE;  // start in ACQUIRE state
+    private int lostTagCycles = 0;        // counts how many loops we've lost vision
 
     // Only align to these tag IDs (your COSMIC Converter tags)
-    //WHAT ARE THE NUMBERS OF THE TAGS THAT WE WANT TO LOOK AT??
-    private static final int[] VALID_TAGS = {};
+    private static final int[] VALID_TAGS = {5, 6, 7, 8};
 
     // ------------------------------------------------------------
     // Abort behavior: if we lose the tag for too long -> stop
     // ------------------------------------------------------------
     private static final int MAX_LOST_CYCLES = 12;
-    //why do we want the max to be 12 cycles. this is the amount of time it takes for the robot to run its main loop. think of it like the robots heart beat
 
 
 
@@ -52,24 +49,24 @@ public class AlignToAprilTagCommand extends Command {
     // ------------------------------------------------------------
 
     // Rotation (tx error correction)
-    private static final double kRotKP = 0.03; //controls how fast we turn(WILL CHANGE)
-    private static final double kRotMax = 0.45;//max amount of speed you can be turning at(WILL CHANGE)
+    private static final double kRotKP = 0.03; // proportional gain for rotation
+    private static final double kRotMax = 0.45;
 
     // Strafe (robot-relative Y error correction)
-    private static final double kStrafeKP = 2.0;//controls how fast we move left or right
-    private static final double kStrafeMax = 0.5;//max amount of speed you can be moving horizontally at
+    private static final double kStrafeKP = 2.0;
+    private static final double kStrafeMax = 0.5;
 
     // Forward driving (robot-relative X error correction)
     private static final double kDriveKP = 2.0;
     private static final double kDriveMax = 0.6;
 
-    // Alignment tolerances, the amount of error that we can have to think, ok we are good enough
-    private static final double kTxTolDeg = 1.2;      // amount we can be off by when we are rotating to move from rotating to strafing
-    private static final double kYTolMeters = 0.03;   // amount we can be off by when we are strafing to move from strafing to driving
-    private static final double kXTolMeters = 0.035;  // amount we can be off by when we are driving up to the cosmic converter to move from driving to done
+    // Alignment tolerances
+    private static final double kTxTolDeg = 1.2;      // degrees
+    private static final double kYTolMeters = 0.03;   // meters (~3 cm)
+    private static final double kXTolMeters = 0.035;  // meters (~3.5 cm)
 
-    // Desired final distance from the tag (in meters) we are talking abouut the distance from the limelight to the april tag
-    private final double desiredDistMeters;//we will change this value, that's why its not set yet
+    // Desired final distance from the tag (in meters)
+    private final double desiredDistMeters;
 
 
 
@@ -80,10 +77,6 @@ public class AlignToAprilTagCommand extends Command {
      * @param limelight   Name of your Limelight (from LimelightConstants.llFront)
      * @param desiredDistMeters  Your final stand-off distance in meters
      */
-
-    //THIS IS OUR CONSTRUCTOR, IT CONSTRUCTS THIS COMMAND
-    //this is run one time to create the command object that we will be using in the code
-    //this stores things like what swerve we are using, what limelight we are using, and what the desired final distance is
     public AlignToAprilTagCommand(
             SwerveSubsystem swerve,
             String limelight,
@@ -92,18 +85,17 @@ public class AlignToAprilTagCommand extends Command {
         this.swerve = swerve;
         this.limelightName = limelight;
         this.desiredDistMeters = desiredDistMeters;
-        //this line of code says this whole command will need the swerve subsystem
+
         addRequirements(swerve);
     }
 
 
-    //THIS STARTS THE PROGRAM, AND WE ALWAYS START IN THE ACQUIRE STATE
-    //right now, this initialization happens when the driver presses the button, we have to change that later to when the april tag is detected
+
     @Override
     public void initialize() {
         // Reset state machine
-        state = State.ACQUIRE;//starts the robot in its required state
-        lostTagCycles = 0;//we haven't lost any cycle yet
+        state = State.ACQUIRE;
+        lostTagCycles = 0;
     }
 
 
@@ -114,13 +106,29 @@ public class AlignToAprilTagCommand extends Command {
         // ------------------------------------------------------------
         // Check if we see any target at all
         // ------------------------------------------------------------
+        boolean hasTarget = LimelightHelpers.getTV(limelightName);
 
-        
+        if (!hasTarget) {
+            // Increment lost counter; if too long, abort alignment
+            lostTagCycles++;
+            if (lostTagCycles > MAX_LOST_CYCLES) {
+                state = State.DONE;
+            }
+        } else {
+            lostTagCycles = 0;
+        }
 
         // ------------------------------------------------------------
         // Run state machine
         // ------------------------------------------------------------
-        
+        switch (state) {
+
+            case ACQUIRE -> handleAcquire();
+            case ROTATE  -> handleRotate();
+            case STRAFE  -> handleStrafe();
+            case DRIVE   -> handleDrive();
+            case DONE    -> swerve.stopModules();
+        }
     }
 
 
@@ -129,12 +137,10 @@ public class AlignToAprilTagCommand extends Command {
     //  STATE 1 – ACQUIRE (Find a valid AprilTag 5–8)
     // =====================================================================================
     private void handleAcquire() {
-        //if the tag is in view, switch the state to ROTATE
-        //otherwise, stop the swerve modules and wait
-        if(isValidTagInView()){
+        if (isValidTagInView()) {
             state = State.ROTATE;
         } else {
-            swerve.stopModules();
+            swerve.stopModules();  // sit still until tag is found
         }
     }
 
@@ -144,15 +150,16 @@ public class AlignToAprilTagCommand extends Command {
     //  STATE 2 – ROTATE (tx -> 0 degrees)
     // =====================================================================================
     private void handleRotate() {
-        //get the orientation of the limelight
-        //rotate command 
-        //use the rotate commmand, ensure that the x and y coordinates at at the origin(0,0)
-        //if we are turned enough, where we are well within the error rate, move on to next phase
         double tx = LimelightHelpers.getTX(limelightName);
-        double rotCmd = MathUtil.clamp(tx * kRotKP, -kRotMax, kRotMax);
-        swerve.drive(0,0,rotCmd,true,true);
 
-        if(Math.abs(tx) < kTxTolDeg){
+        // Simple proportional rotation: error * gain
+        double rotCmd = MathUtil.clamp(kRotKP * tx, -kRotMax, kRotMax);
+
+        // Rotate only, no translation
+        swerve.drive(0.0, 0.0, rotCmd, true, true);
+
+        // If we're facing the tag, move to next phase
+        if (Math.abs(tx) < kTxTolDeg) {
             state = State.STRAFE;
         }
     }
@@ -163,12 +170,25 @@ public class AlignToAprilTagCommand extends Command {
     //  STATE 3 – STRAFE (RobotSpace Y -> 0 meters)
     // =====================================================================================
     private void handleStrafe() {
-        //get the position of our target(the april tag) based on where we are
-        //lateral error
-        //strafe to remove the y axis error 
-        //only moving horizontally, no rotation or forward driving, reflect this in a code line
-        //if we are within the tolerance, 
 
+        if (!LimelightHelpers.getTV(limelightName)) return;
+
+        // RobotSpace pose: target relative to robot
+        double[] pose = LimelightHelpers.getTargetPose_RobotSpace(limelightName);
+        if (pose == null) return;
+
+        double y = pose[1];  // lateral error; + means target is LEFT of robot
+
+        // Strafe to remove Y error
+        double strafeCmd = MathUtil.clamp(-kStrafeKP * y, -kStrafeMax, kStrafeMax);
+
+        // Strafe only, no rotation or forward movement
+        swerve.drive(0.0, strafeCmd, 0.0, true, true);
+
+        // If centered, move to final phase
+        if (Math.abs(y) < kYTolMeters) {
+            state = State.DRIVE;
+        }
     }
 
 
@@ -177,43 +197,38 @@ public class AlignToAprilTagCommand extends Command {
     //  STATE 4 – DRIVE (RobotSpace X -> desiredDistMeters)
     // =====================================================================================
     private void handleDrive() {
-        //get the position of our target(the april tag) based on where we are
-        //get the forward distance to the tag
-        //find the error, or the amount we need to move in order to get to our desired position
 
-        boolean checkState = true;
+        if (!LimelightHelpers.getTV(limelightName)) return;
 
-        
-        // In Limelight target-space (when facing the tag):
-        // posLight[0] (X) is the forward distance to the tag (range).
-        double[] posLight = LimelightHelpers.getTargetPose_RobotSpace(limelightName); // The resulting array is [X, Y, Z, Pitch, Yaw, Roll] in meters/degrees.
-        double x = posLight[0];
+        // RobotSpace pose: target relative to robot
+        double[] pose = LimelightHelpers.getTargetPose_RobotSpace(limelightName);
+        if (pose == null) return;
 
-        double error = x - desiredDistMeters; // This gets the distance betwee nthe robot's limelights and the comic converter at it's desired position
-        double ForwardCmd =  MathUtil.clamp(kDriveKP*error, -kDriveMax, kDriveMax); // Calculate how fast the robot drive towards the target position
-        swerve.drive(ForwardCmd ,0.0, 0.0, checkState, checkState); // This just drives the robot towards the converter
+        double x = pose[0]; // forward distance to tag
 
-        // When the distance form the robot and the converter is close enough stop this function
-        if (Math.abs(error) < kXTolMeters){ 
+        double error = x - desiredDistMeters;
+
+        double fwdCmd = MathUtil.clamp(kDriveKP * error, -kDriveMax, kDriveMax);
+
+        // Drive forward only; no strafe or rotation
+        swerve.drive(fwdCmd, 0.0, 0.0, true, true);
+
+        // If within tolerance, we’re fully aligned
+        if (Math.abs(error) < kXTolMeters) {
             state = State.DONE;
             swerve.stopModules();
         }
-        
-
-
     }
 
 
 
     @Override
     public boolean isFinished() {
-        //switch state to DONE
-        return state == state.DONE;
+        return state == State.DONE;
     }
 
     @Override
     public void end(boolean interrupted) {
-        //stop our modules
         swerve.stopModules();
     }
 
@@ -221,9 +236,14 @@ public class AlignToAprilTagCommand extends Command {
 
     // =====================================================================================
     //  HELPER: check if current tag is one of IDs 5–8
-    // =====================================================================================
+    // ===== ================================================================================
     private boolean isValidTagInView() {
-        
+        if (!LimelightHelpers.getTV(limelightName)) return false;
+
+        int fid = (int) LimelightHelpers.getFiducialID(limelightName);
+        for (int t : VALID_TAGS) {
+            if (fid == t) return true;
+        }
+        return false;
     }
 }
-
