@@ -17,14 +17,21 @@ public final class Constants {
 
 
     public static final class CANAssignments {
-        public static final int ALGAE_MOTOR_ID = 19;
+        // INTAKE SUBSYSTEM MOTOR ID
+        public static final int PIVOT_ARM_MOTOR_ID = 1;
+        public static final int INTAKE_MOTOR_ID = 0;
 
+        // SHOOTER SUBSYSTEM MOTOR ID
+        public static final int LEFT_SHOOTER_MOTOR_ID = 0;
+        public static final int RIGHT_SHOOTER_MOTOR_ID = 0;
+
+        // SWERVE MOTOR ID
         public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;
         public static final int BACK_LEFT_DRIVE_MOTOR_ID = 7;
         public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 3;
         public static final int BACK_RIGHT_DRIVE_MOTOR_ID = 5;
 
-        public static final int FRONT_LEFT_STEER_MOTOR_ID = 2;
+        public static final int FRONT_LEFT_STEER_MOTOR_ID = 27;
         public static final int BACK_LEFT_STEER_MOTOR_ID = 8;
         public static final int FRONT_RIGHT_STEER_MOTOR_ID = 4;
         public static final int BACK_RIGHT_STEER_MOTOR_ID = 6;
@@ -33,10 +40,6 @@ public final class Constants {
         public static final int BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID = 12;
         public static final int FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 10;
         public static final int BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 11;
-
-        public static final int LEFT_ELEVATOR_MOTOR_ID = 13;
-        public static final int RIGHT_ELEVATOR_MOTOR_ID = 14;
-
 
         public static final int PDU_ID = 24;
     }
@@ -146,6 +149,10 @@ public final class Constants {
         public static final Pose2d RED_REEF_CENTER = new Pose2d(13, 4.05, Rotation2d.fromDegrees(0));
 
         public static final List<Pose2d> REEF_CENTERS = new ArrayList<>(List.of(BLUE_REEF_CENTER, RED_REEF_CENTER));
+    }
+
+    public static final class ScoringConstants {
+        public static final double PIVOT_GEAR_RATIO = 52;
     }
 
     

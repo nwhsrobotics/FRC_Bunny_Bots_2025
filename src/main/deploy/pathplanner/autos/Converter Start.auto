@@ -7,31 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start - First"
+            "pathName": "Converter - Third"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "First - Shoot2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "Third - First"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Second - Thrid"
+            "pathName": "First - Converter"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Third - Shoot [Maybe]"
+            "pathName": "Converter Offensive Run Upper"
           }
         }
       ]
