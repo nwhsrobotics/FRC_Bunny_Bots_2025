@@ -17,14 +17,15 @@ public final class Constants {
 
 
     public static final class CANAssignments {
-        // INTAKE SUBSYSTEM MOTOR ID
-        public static final int PIVOT_ARM_MOTOR_ID = 1;
+        // SCORING SUBSYSTEM MOTOR ID
+        public static final int PIVOT_ARM_MOTOR_ID = 0;
         public static final int INTAKE_MOTOR_ID = 0;
 
-        // SHOOTER SUBSYSTEM MOTOR ID
+        public static final int INDEX_MOTOR_ID = 0;
+        
         public static final int FLYWHEEL_ONE_ID = 0;
         public static final int FLYWHEEL_TWO_ID = 0;
-
+        
         public static final int FEEDER_MOTOR_ID = 0;
 
         public static final double INTAKE_SPEED = 0.6; //Need to tune these big time

@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.CANAssignments;
 import frc.robot.Constants.ScoringConstants;
 import frc.robot.util.RobotCANUtils.CANSparkFlexController;
 import frc.robot.util.RobotCANUtils.CANSparkMaxController;
@@ -22,7 +23,7 @@ import frc.robot.util.RobotCANUtils.MotorKind;
 
 public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the pivot
 
-    public static enum States {
+    public static enum ScoringStates {
         Idle,
 
         Unload,
@@ -36,7 +37,7 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         ShootLow,// spin the flywheels at low speed
     }
 
-    private States state = States.Idle;
+    public ScoringStates state = ScoringStates.Idle;
 
     // shooter flywheels
     private final CANSparkFlexController flywheelMotor1;
@@ -52,31 +53,69 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
     // common SparkFlex config for both flywheels
     private final SparkFlexConfig flywheelCfg = new SparkFlexConfig();
 
-    // pivot Motor declarations
+    // pivot Motor 
     private CANSparkMaxController pivotMotor;
     private SparkMaxConfig pivotCfg = new SparkMaxConfig();
     private SparkClosedLoopController pivotPid;
-    private double currentPos = 1.0; // starting pos
     private DutyCycleEncoder absEncoder;
     private RelativeEncoder motorEnc;
     private static final double ZERO_ROT = 0.803;
 
+    // intake motor
+    private CANSparkMaxController intakeMotor;
+    private SparkClosedLoopController intakePid;
+    private SparkMaxConfig intakeCfg = new SparkMaxConfig();
+
+    // indexer motor
+    private CANSparkMaxController indexMotor;
+    private SparkClosedLoopController indexPid;
+
+
+
     public ScoringSubsystem() {
 
-        
+        // ----------------- PIVOT CONFIG -----------------------
         absEncoder = new DutyCycleEncoder(0);
+        
         pivotMotor = new CANSparkMaxController(
-                2,
-                MotorKind.NEO30AMP,
-                pivotCfg,
-                IdleMode.kBrake,
-                0.1, 0.0, 0.0,
-                1500, 1500, 0.6);
+            CANAssignments.PIVOT_ARM_MOTOR_ID, 
+            MotorKind.NEO30AMP, 
+            pivotCfg, 
+            IdleMode.kBrake,
+            0.1, 0.0, 0.0, 
+            1500, 1500, 0.6);
+        
         pivotPid = pivotMotor.getClosedLoopController();
         motorEnc = pivotMotor.getEncoder();
         motorEnc.setPosition(Math.abs(absEncoder.get() - ZERO_ROT) * ScoringConstants.PIVOT_GEAR_RATIO);
 
-        // ---------------- FLYWHEEL CONFIG ----------------
+        
+        
+        // ------------------- INTAKE CONFIG -------------------
+        intakeMotor = new CANSparkMaxController(
+            CANAssignments.INTAKE_MOTOR_ID, 
+            MotorKind.NEO30AMP, 
+            intakeCfg,
+            IdleMode.kCoast,
+            0.1, 0, 0);
+
+        intakePid = intakeMotor.getClosedLoopController();
+
+
+
+        // ------------------- INDEXER CONFIG ------------------
+        indexMotor = new CANSparkMaxController(
+            CANAssignments.INDEX_MOTOR_ID, 
+            MotorKind.NEO30AMP, 
+            intakeCfg,
+            IdleMode.kCoast,
+            0.1, 0, 0);
+            
+        indexPid = indexMotor.getClosedLoopController();
+
+        
+        
+        // ---------------- FLYWHEEL CONFIG --------------------
         // Configure PID + sensor on the SparkFlexConfig
         flywheelCfg.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -101,9 +140,10 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         flywheelEncoder1 = flywheelMotor1.getEncoder();
         flywheelEncoder2 = flywheelMotor2.getEncoder();
 
+        
+        
         // ---------------- FEEDER SETUP ----------------
-        feederMotor = new CANSparkMaxController(
-                Constants.CANAssignments.FEEDER_MOTOR_ID,
+        feederMotor = new CANSparkMaxController(Constants.CANAssignments.FEEDER_MOTOR_ID,
                 MotorKind.NEO550,
                 new SparkMaxConfig(),
                 IdleMode.kBrake,
@@ -111,8 +151,11 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
                 2000, 2000, 10, 12.0);
 
         feederEncoder = feederMotor.getEncoder();
+
+
     }
 
+    //----------------- CONTROL METHODS -----------------------
 
     private boolean shooterAtSpeed() {
         double rpmOne = Math.abs(flywheelEncoder1.getVelocity());
@@ -165,26 +208,12 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         feederMotor.set(0);
     }
 
-
-    public void intake() {
-        currentPos = degreesToMotorRot(135); // CHANGE DEGREE TO BE MORE ACCURATE
-        // TODO: add star wheel rotation logic
-    }
-
-    public void stow() {
-        currentPos = degreesToMotorRot(0.8);
-    }
-
     public double degreesToMotorRot(double degree) {
         return (degree / 360.0) * ScoringConstants.PIVOT_GEAR_RATIO;
     }
 
-    public double getOffsetedCurrentPos() {
-        double rot = absEncoder.get() - ZERO_ROT;
-        return rot;
-    }
 
-    public void setState(States newState) {
+    public void setState(ScoringStates newState) {
         this.state = newState;
     }
 
@@ -192,23 +221,35 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
 
     @Override
     public void periodic() {
-
         switch (state) {
             case Idle:
+                pivotPid.setReference(degreesToMotorRot(0.8), ControlType.kMAXMotionPositionControl);
+                indexPid.setReference(0, ControlType.kVelocity);
+                intakePid.setReference(0, ControlType.kVelocity);
+
                 stopShooter();
                 stopFeeder();
                 break;
 
             case LoadStageOne:
                 // TODO: intake + feeder logic
+                pivotPid.setReference(degreesToMotorRot(135), ControlType.kMAXMotionPositionControl);
+                indexPid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                intakePid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
                 break;
 
             case LoadStageTwo:
                 // TODO: intake-only logic
+                pivotPid.setReference(degreesToMotorRot(135), ControlType.kMAXMotionPositionControl);
+                intakePid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                indexPid.setReference(0, ControlType.kVelocity);
                 break;
 
             case Unload:
                 // TODO: reverse intake + feeder
+                pivotPid.setReference(degreesToMotorRot(0.8), ControlType.kMAXMotionPositionControl);
+                indexPid.setReference(-CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                intakePid.setReference(-CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
                 break;
 
             case ShootHigh:
@@ -216,25 +257,27 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
                 stopFeeder();
 
                 if (shooterAtSpeed()) {
-                    runFeeder(+1.0);
+                    runFeeder(1.0);
+                    indexPid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+
                 }
                 break;
+                
 
             case ShootLow:
                 setShooterRPM(Constants.CANAssignments.LOW_SHOT_RPM);
                 stopFeeder();
 
                 if (shooterAtSpeed()) {
-                    runFeeder(+1.0);
+                    runFeeder(1.0);
+                    indexPid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+
                 }
                 break;
 
             default:
                 break;
         }
-
-        pivotPid.setReference(currentPos, ControlType.kMAXMotionPositionControl);
-        System.out.println(absEncoder.get() + "   " + motorEnc.getPosition() + "   " + currentPos);
     }
 
     public double getTargetRPM() {
@@ -245,16 +288,5 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         return flywheelEncoder1.getVelocity();
     }
 
-    public double getProgress() {
-        double tgt = Constants.CANAssignments.targetRPM;
-        if (tgt <= 0)
-            return 0.0;
-        double curr = Math.abs(getCurrentRPM());
-        double p = curr / tgt;
-        if (p < 0)
-            return 0.0;
-        if (p > 1)
-            return 1.0;
-        return p;
-    }
+
 }

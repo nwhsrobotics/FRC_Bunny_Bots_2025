@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.CANAssignments;
+import frc.robot.Constants.CANAssignments;
 import org.littletonrobotics.junction.Logger;
 
 import java.lang.reflect.Field;
