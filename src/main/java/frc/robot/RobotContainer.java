@@ -25,22 +25,23 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 
 public class RobotContainer {
-  //private final SendableChooser<Command> autoChooser;
-  
+
+  // -------------------- SUBSYSTEM INIT --------------------------------
   public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public final ScoringSubsystem scoringSubsystem= new ScoringSubsystem();
   
-  
+  // ------------------------- CONTROLER INIT --------------------------
   public final XboxController driver = new XboxController( 0);
   public final XboxController gunner = new XboxController( 1);
 
+  // -------------------------- AUTO INIT ------------------------------
   public final SendableChooser<Command> autoChooser;
 
 
 
   public RobotContainer() {
     
-    //---------------------------- SETSCORINGCOMMANDS ------------------------------
+    //---------------------------- SETSCORINGCOMMANDS ------------------------------ Question: do we need the duration parameter????
     SetScoringCommand IntakeStageOne = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.LoadStageOne, 3);
     SetScoringCommand IntakeStageTwo = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.LoadStageTwo, 3);
     SetScoringCommand unload = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.Unload, 3);
@@ -65,7 +66,7 @@ public class RobotContainer {
     
 
     //------------------------- AUTO CHOOSER --------------------
-    autoChooser = AutoBuilder.buildAutoChooser("null");
+    autoChooser = AutoBuilder.buildAutoChooser("null"); // TODO add the default auto.
     SmartDashboard.putData("Auto Chooser", autoChooser);
     
     

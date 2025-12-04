@@ -28,20 +28,6 @@ public final class Constants {
         
         public static final int FEEDER_MOTOR_ID = 0;
 
-        public static final double INTAKE_SPEED = 0.6; //Need to tune these big time
-        public static final double FEEDER_SPEED = 0.7; //Need to tune these big time
-        public static final double FEEDER_CLEAR_SPEED = 0.6; //Need to tune these big time
-        public static final double LOW_SHOT_RPM = 3500.0;  // tune me
-        public static final double HIGH_SHOT_RPM = 6000.0; // tune me
-        public static final double RPM_TOLERANCE = 150.0;  // considered "at speed"
-        public static double targetRPM = 0;
-        public double basePower = 0; // for feedforward
-
-        public static double MAX_VELOCITY_RPM = 0.0; //need to tune obv
-        public static double MAX_ACCEL_RPM_S = 5.0; //need to tune
-
-        public static double OUTPUT_PER_RPM = 0.0; //need to tune
-
         // SWERVE MOTOR ID
         public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;
         public static final int BACK_LEFT_DRIVE_MOTOR_ID = 7;
@@ -170,6 +156,20 @@ public final class Constants {
 
     public static final class ScoringConstants {
         public static final double PIVOT_GEAR_RATIO = 52;
+
+        public static final double INTAKE_SPEED = 4500; //Need to tune these big time
+        public static final double FEEDER_SPEED = 0.7; //Need to tune these big time
+        public static final double FEEDER_CLEAR_SPEED = 0.6; //Need to tune these big time
+        public static final double LOW_SHOT_RPM = 3500.0;  // tune me
+        public static final double HIGH_SHOT_RPM = 6000.0; // tune me
+        public static final double RPM_TOLERANCE = 150.0;  // considered "at speed"
+        public static double targetRPM = 0;
+        public double basePower = 0; // for feedforward
+
+        public static double MAX_VELOCITY_RPM = 0.0; //need to tune obv
+        public static double MAX_ACCEL_RPM_S = 5.0; //need to tune
+
+        public static double OUTPUT_PER_RPM = 0.0; //need to tune
     }
 
     public static final class MotorConstants{

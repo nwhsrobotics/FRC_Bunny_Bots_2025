@@ -59,7 +59,7 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
     private SparkClosedLoopController pivotPid;
     private DutyCycleEncoder absEncoder;
     private RelativeEncoder motorEnc;
-    private static final double ZERO_ROT = 0.803;
+    private static final double ZERO_ROT = 0.803; // change this!!!!!
 
     // intake motor
     private CANSparkMaxController intakeMotor;
@@ -94,10 +94,10 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         // ------------------- INTAKE CONFIG -------------------
         intakeMotor = new CANSparkMaxController(
             CANAssignments.INTAKE_MOTOR_ID, 
-            MotorKind.NEO30AMP, 
+            MotorKind.NEO80AMP, 
             intakeCfg,
             IdleMode.kCoast,
-            0.1, 0, 0);
+            0.0001, 0, 0);
 
         intakePid = intakeMotor.getClosedLoopController();
 
@@ -106,10 +106,10 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         // ------------------- INDEXER CONFIG ------------------
         indexMotor = new CANSparkMaxController(
             CANAssignments.INDEX_MOTOR_ID, 
-            MotorKind.NEO30AMP, 
+            MotorKind.NEO80AMP, 
             intakeCfg,
             IdleMode.kCoast,
-            0.1, 0, 0);
+            0.0001, 0, 0);
             
         indexPid = indexMotor.getClosedLoopController();
 
@@ -161,42 +161,42 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         double rpmOne = Math.abs(flywheelEncoder1.getVelocity());
         double rpmTwo = Math.abs(flywheelEncoder2.getVelocity());
 
-        return Math.abs(rpmOne - Constants.CANAssignments.targetRPM) < Constants.CANAssignments.RPM_TOLERANCE
-                && Math.abs(rpmTwo - Constants.CANAssignments.targetRPM) < Constants.CANAssignments.RPM_TOLERANCE;
+        return Math.abs(rpmOne - Constants.ScoringConstants.targetRPM) < Constants.ScoringConstants.RPM_TOLERANCE
+                && Math.abs(rpmTwo - Constants.ScoringConstants.targetRPM) < Constants.ScoringConstants.RPM_TOLERANCE;
     }
 
     private void setShooterRPM(double rpm) {
-        Constants.CANAssignments.targetRPM = rpm;
+        Constants.ScoringConstants.targetRPM = rpm;
 
         flywheelMotor1.getClosedLoopController().setReference(
-                Constants.CANAssignments.targetRPM,
+                Constants.ScoringConstants.targetRPM,
                 ControlType.kVelocity,
                 ClosedLoopSlot.kSlot0,
-                Constants.CANAssignments.targetRPM * Constants.CANAssignments.OUTPUT_PER_RPM * 12);
+                Constants.ScoringConstants.targetRPM * Constants.ScoringConstants.OUTPUT_PER_RPM * 12);
 
         flywheelMotor2.getClosedLoopController().setReference(
-                Constants.CANAssignments.targetRPM,
+                Constants.ScoringConstants.targetRPM,
                 ControlType.kVelocity,
                 ClosedLoopSlot.kSlot0,
-                -Constants.CANAssignments.targetRPM * Constants.CANAssignments.OUTPUT_PER_RPM * 12);
+                -Constants.ScoringConstants.targetRPM * Constants.ScoringConstants.OUTPUT_PER_RPM * 12);
     }
 
     private void stopShooter() {
         flywheelMotor1.set(0);
         flywheelMotor2.set(0);
-        Constants.CANAssignments.targetRPM = 0;
+        Constants.ScoringConstants.targetRPM = 0;
     }
 
     // increase RPM and decrease RPM methods
     public void increaseRPM() {
-        if (Constants.CANAssignments.targetRPM < 5500) {
-            Constants.CANAssignments.targetRPM += 100;
+        if (Constants.ScoringConstants.targetRPM < 5500) {
+            Constants.ScoringConstants.targetRPM += 100;
         }
     }
 
     public void decreaseRPM() {
-        if (Constants.CANAssignments.targetRPM > 100) {
-            Constants.CANAssignments.targetRPM -= 100;
+        if (Constants.ScoringConstants.targetRPM > 100) {
+            Constants.ScoringConstants.targetRPM -= 100;
         }
     }
 
@@ -232,45 +232,45 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
                 break;
 
             case LoadStageOne:
-                // TODO: intake + feeder logic
+
                 pivotPid.setReference(degreesToMotorRot(135), ControlType.kMAXMotionPositionControl);
-                indexPid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
-                intakePid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                indexPid.setReference(ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
+                intakePid.setReference(ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
                 break;
 
             case LoadStageTwo:
-                // TODO: intake-only logic
+
                 pivotPid.setReference(degreesToMotorRot(135), ControlType.kMAXMotionPositionControl);
-                intakePid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                intakePid.setReference(ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
                 indexPid.setReference(0, ControlType.kVelocity);
                 break;
 
             case Unload:
-                // TODO: reverse intake + feeder
+
                 pivotPid.setReference(degreesToMotorRot(0.8), ControlType.kMAXMotionPositionControl);
-                indexPid.setReference(-CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
-                intakePid.setReference(-CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                indexPid.setReference(-ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
+                intakePid.setReference(-ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
                 break;
 
             case ShootHigh:
-                setShooterRPM(Constants.CANAssignments.HIGH_SHOT_RPM);
+                setShooterRPM(Constants.ScoringConstants.HIGH_SHOT_RPM);
                 stopFeeder();
 
                 if (shooterAtSpeed()) {
                     runFeeder(1.0);
-                    indexPid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                    indexPid.setReference(ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
 
                 }
                 break;
                 
 
             case ShootLow:
-                setShooterRPM(Constants.CANAssignments.LOW_SHOT_RPM);
+                setShooterRPM(Constants.ScoringConstants.LOW_SHOT_RPM);
                 stopFeeder();
 
                 if (shooterAtSpeed()) {
                     runFeeder(1.0);
-                    indexPid.setReference(CANAssignments.INTAKE_SPEED, ControlType.kVelocity);
+                    indexPid.setReference(ScoringConstants.INTAKE_SPEED, ControlType.kVelocity);
 
                 }
                 break;
@@ -281,7 +281,7 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
     }
 
     public double getTargetRPM() {
-        return Constants.CANAssignments.targetRPM;
+        return Constants.ScoringConstants.targetRPM;
     }
 
     public double getCurrentRPM() {
