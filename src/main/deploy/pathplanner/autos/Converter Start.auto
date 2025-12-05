@@ -11,19 +11,25 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": " Converter - Third1"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Converter - Third"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "INTAKE_STAGE_ONE"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Third - First"
                 }
               }
             ]
@@ -32,13 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Third - First"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "First - Converter"
+            "pathName": "First - Converter2"
           }
         },
         {

@@ -66,7 +66,7 @@ public class RobotContainer {
     
 
     //------------------------- AUTO CHOOSER --------------------
-    autoChooser = AutoBuilder.buildAutoChooser("null"); // TODO add the default auto.
+    autoChooser = AutoBuilder.buildAutoChooser("One By One"); // TODO add the default auto.
     SmartDashboard.putData("Auto Chooser", autoChooser);
     
     
