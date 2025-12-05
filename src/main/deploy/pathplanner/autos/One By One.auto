@@ -7,25 +7,37 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Converter - First"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First - Converter1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Converter - Second"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Second - Converter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Converter - Third"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Third - First"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "First - Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Defensive Run"
+            "pathName": "Third - Converter"
           }
         }
       ]
