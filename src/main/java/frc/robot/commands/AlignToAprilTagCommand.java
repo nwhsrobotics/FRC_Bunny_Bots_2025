@@ -156,7 +156,7 @@ public class AlignToAprilTagCommand extends Command {
         double rotCmd = MathUtil.clamp(kRotKP * tx, -kRotMax, kRotMax);
 
         // Rotate only, no translation
-        swerve.drive(0.0, 0.0, rotCmd, true, true);
+        swerve.drive(0.0, 0.0, rotCmd, false, true);
 
         // If we're facing the tag, move to next phase
         if (Math.abs(tx) < kTxTolDeg) {
