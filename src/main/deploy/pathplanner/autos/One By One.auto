@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Converter - First"
+            "name": "SHOOT_HIGH"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Converter - First"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "INTAKE_STAGE_ONE"
+                }
+              }
+            ]
           }
         },
         {
@@ -17,9 +36,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Converter - Second"
+            "name": "SHOOT_HIGH"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Converter - Second"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "INTAKE_STAGE_ONE"
+                }
+              }
+            ]
           }
         },
         {
@@ -29,15 +67,40 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Converter - Third"
+            "name": "SHOOT_HIGH"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Converter - Third"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "INTAKE_STAGE_ONE"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Third - Converter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SHOOT_HIGH"
           }
         }
       ]
