@@ -40,14 +40,14 @@ public class SetScoringCommand extends Command {
   @Override
   public void initialize() {
     timer.reset();
-    subsystem.state = state;
+    subsystem.setState(state);
     timer.start();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.state = endState;
+    subsystem.setState(endState);
   }
 
   // Returns true when the command should end.
