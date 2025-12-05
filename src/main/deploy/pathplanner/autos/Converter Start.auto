@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Converter - Third"
+            "name": "SHOOT_HIGH"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Converter - Third"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "INTAKE_STAGE_ONE"
+                }
+              }
+            ]
           }
         },
         {
@@ -23,9 +42,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Converter Offensive Run Upper"
+            "name": "SHOOT_HIGH"
           }
         }
       ]

@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SHOOT_HIGH"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Move Out"

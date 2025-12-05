@@ -10,8 +10,6 @@ import frc.robot.subsystems.ScoringSubsystem.ScoringStates;
 
 public class SetScoringCommand extends Command {
 
-  private final ScoringStates DEFAULT_END_STATE = ScoringStates.Idle;
-
   private final ScoringSubsystem subsystem;
   private final Timer timer;
   private final ScoringStates state;
@@ -26,25 +24,18 @@ public class SetScoringCommand extends Command {
     this.duration = duration;
     timer = new Timer();
     addRequirements(subsystem);
-
   }
 
   public SetScoringCommand(ScoringSubsystem subsystem, ScoringStates state, double duration) {
-    this.subsystem = subsystem;
-    this.state = state;
-    this.endState = DEFAULT_END_STATE;
-    this.duration = duration;
-    timer = new Timer();
-    addRequirements(subsystem);
-
+    this(subsystem, state, ScoringStates.Idle, duration);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     timer.reset();
-    subsystem.setState(state);
     timer.start();
+    subsystem.setState(state);
   }
 
   // Called once the command ends or is interrupted.

@@ -41,10 +41,6 @@ public class SwerveJoystickDefaultCmd extends Command {
             //trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTagConstants.aprilTags);
             //trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTags.aprilTags);
             swerveSubsystem.driveRobotRelative(driveController.calculateRobotRelativeSpeeds(swerveSubsystem.getPose(), trajectoryState));
-        } else if (xbox.getRightBumperButton()) {
-            PathPlannerTrajectoryState trajectoryState = new PathPlannerTrajectoryState();
-            //trajectoryState.pose = swerveSubsystem.getPose().nearest(Constants.AprilTags.aprilTags);
-            swerveSubsystem.driveRobotRelative(driveController.calculateRobotRelativeSpeeds(swerveSubsystem.getPose(), trajectoryState));
         } else if (xbox.getLeftTriggerAxis() > 0.1) {  //if reef (target) relative mode pressed
             swerveSubsystem.targetRelativeDrive(Positions.REEF_CENTERS, xbox.getLeftY(), xbox.getLeftX());
             // for example if driving relative to april tag do

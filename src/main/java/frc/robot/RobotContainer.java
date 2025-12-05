@@ -51,7 +51,7 @@ public class RobotContainer {
 
     //------------ PATH PLANNER COMMANDS ---------------
     NamedCommands.registerCommand("SHOOT_HIGH", ShootHigh);
-    NamedCommands.registerCommand("SHOOT_LOW", ShootHigh);
+    NamedCommands.registerCommand("SHOOT_LOW", ShootLow);
     NamedCommands.registerCommand("INTAKE_STAGE_ONE", IntakeStageOne);
     NamedCommands.registerCommand("INTAKE_STAGE_TWO", IntakeStageTwo);
 
