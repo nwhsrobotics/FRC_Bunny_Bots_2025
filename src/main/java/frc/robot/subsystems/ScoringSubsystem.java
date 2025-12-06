@@ -37,7 +37,7 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         ShootLow,// spin the flywheels at low speed
     }
 
-    public ScoringStates state = ScoringStates.Idle;
+    private ScoringStates state = ScoringStates.Idle;
 
     // shooter flywheels
     private final CANSparkFlexController flywheelMotor1;
@@ -215,12 +215,6 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
 
     public void setState(ScoringStates newState) {
         this.state = newState;
-    }
-
-    // ---------------- PERIODIC ----------------
-
-    @Override
-    public void periodic() {
         switch (state) {
             case Idle:
                 pivotPid.setReference(degreesToMotorRot(0.8), ControlType.kMAXMotionPositionControl);
@@ -278,6 +272,10 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
             default:
                 break;
         }
+    }
+
+    @Override
+    public void periodic() {
     }
 
     public double getTargetRPM() {
