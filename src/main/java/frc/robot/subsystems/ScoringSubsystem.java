@@ -109,7 +109,7 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
             MotorKind.NEO80AMP, 
             intakeCfg,
             IdleMode.kCoast,
-            0.0001, 0, 0);
+            0.00003, 0.0000001, 0);
             
         indexPid = indexMotor.getClosedLoopController();
 
@@ -147,8 +147,8 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
                 MotorKind.NEO550,
                 new SparkMaxConfig(),
                 IdleMode.kBrake,
-                0.0003, 0, 0,
-                2000, 2000, 10, 12.0);
+                0.00003, 0.0000001, 0, // TUNED
+                0, 0, 0, .0);
 
         feederEncoder = feederMotor.getEncoder();
 

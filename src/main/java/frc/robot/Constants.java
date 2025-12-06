@@ -29,15 +29,15 @@ public final class Constants {
         public static final int FEEDER_MOTOR_ID = 0;
 
         // SWERVE MOTOR ID
-        public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;
-        public static final int BACK_LEFT_DRIVE_MOTOR_ID = 7;
-        public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 3;
-        public static final int BACK_RIGHT_DRIVE_MOTOR_ID = 5;
+        public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 5;
+        public static final int BACK_LEFT_DRIVE_MOTOR_ID = 3;
+        public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 6;
+        public static final int BACK_RIGHT_DRIVE_MOTOR_ID = 12;
 
-        public static final int FRONT_LEFT_STEER_MOTOR_ID = 27;
-        public static final int BACK_LEFT_STEER_MOTOR_ID = 8;
-        public static final int FRONT_RIGHT_STEER_MOTOR_ID = 4;
-        public static final int BACK_RIGHT_STEER_MOTOR_ID = 6;
+        public static final int FRONT_LEFT_STEER_MOTOR_ID = 8;
+        public static final int BACK_LEFT_STEER_MOTOR_ID = 4;
+        public static final int FRONT_RIGHT_STEER_MOTOR_ID = 15;
+        public static final int BACK_RIGHT_STEER_MOTOR_ID = 11;
 
         public static final int FRONT_LEFT_STEER_ABSOLUTE_ENCODER_ID = 9;
         public static final int BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID = 12;
@@ -157,7 +157,7 @@ public final class Constants {
     public static final class ScoringConstants {
         public static final double PIVOT_GEAR_RATIO = 52;
 
-        public static final double INTAKE_SPEED = 4500; //Need to tune these big time
+        public static final double INTAKE_SPEED = 2000; //Need to tune these big time
         public static final double FEEDER_SPEED = 0.7; //Need to tune these big time
         public static final double FEEDER_CLEAR_SPEED = 0.6; //Need to tune these big time
         public static final double LOW_SHOT_RPM = 3500.0;  // tune me
