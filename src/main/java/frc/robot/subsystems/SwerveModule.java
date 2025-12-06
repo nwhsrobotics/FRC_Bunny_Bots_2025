@@ -85,7 +85,7 @@ public class SwerveModule {
         turningEncoder = turningMotor.getEncoder();
 
         // Set the position of the turning encoder based on the absolute encoder value
-        turningEncoder.setPosition(getAbsoluteEncoderRad());
+        //turningEncoder.setPosition(getAbsoluteEncoderRad());
 
         // Set the conversion factors for the drive and turning encoders
 
@@ -102,7 +102,7 @@ public class SwerveModule {
         resetEncoders();
 
         // Set the turning motor to the calculated value from the PID controller
-        turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
+        //turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
     }
 
     /**
@@ -195,7 +195,9 @@ public class SwerveModule {
      * Reset the turning encoder position to the previous value of the absolute encoder.
      */
     public void resetTurnEncoder() {
-        turningEncoder.setPosition(getAbsoluteEncoderRad());
+        //turningEncoder.setPosition(getAbsoluteEncoderRad());
+        turningEncoder.setPosition(0);
+
     }
 
     /**

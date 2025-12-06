@@ -97,7 +97,7 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
             MotorKind.NEO80AMP, 
             intakeCfg,
             IdleMode.kCoast,
-            0.0001, 0, 0);
+            0.00003, 0, 0);
 
         intakePid = intakeMotor.getClosedLoopController();
 
@@ -161,24 +161,24 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
         double rpmOne = Math.abs(flywheelEncoder1.getVelocity());
         double rpmTwo = Math.abs(flywheelEncoder2.getVelocity());
 
-        return Math.abs(rpmOne - Constants.ScoringConstants.targetRPM) < Constants.ScoringConstants.RPM_TOLERANCE
-                && Math.abs(rpmTwo - Constants.ScoringConstants.targetRPM) < Constants.ScoringConstants.RPM_TOLERANCE;
+        return Math.abs(rpmOne - Constants.ScoringConstants.targetRPM) < 0.2 * Constants.ScoringConstants.targetRPM //Constants.ScoringConstants.RPM_TOLERANCE
+                && Math.abs(rpmTwo - Constants.ScoringConstants.targetRPM) < 0.2 * Constants.ScoringConstants.targetRPM;
     }
 
     private void setShooterRPM(double rpm) {
         Constants.ScoringConstants.targetRPM = rpm;
 
         flywheelMotor1.getClosedLoopController().setReference(
-                Constants.ScoringConstants.targetRPM,
+                -Constants.ScoringConstants.targetRPM,
                 ControlType.kVelocity,
                 ClosedLoopSlot.kSlot0,
-                Constants.ScoringConstants.targetRPM * Constants.ScoringConstants.OUTPUT_PER_RPM * 12);
+                -Constants.ScoringConstants.targetRPM * Constants.ScoringConstants.OUTPUT_PER_RPM * 12);
 
         flywheelMotor2.getClosedLoopController().setReference(
                 Constants.ScoringConstants.targetRPM,
                 ControlType.kVelocity,
                 ClosedLoopSlot.kSlot0,
-                -Constants.ScoringConstants.targetRPM * Constants.ScoringConstants.OUTPUT_PER_RPM * 12);
+                Constants.ScoringConstants.targetRPM * Constants.ScoringConstants.OUTPUT_PER_RPM * 12);
     }
 
     private void stopShooter() {
@@ -215,9 +215,14 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
 
     public void setState(ScoringStates newState) {
         this.state = newState;
+        
+    }
+
+    @Override
+    public void periodic() {
         switch (state) {
             case Idle:
-                pivotPid.setReference(degreesToMotorRot(0.8), ControlType.kMAXMotionPositionControl);
+                pivotPid.setReference(degreesToMotorRot(0), ControlType.kMAXMotionPositionControl);
                 indexPid.setReference(0, ControlType.kVelocity);
                 intakePid.setReference(0, ControlType.kVelocity);
 
@@ -272,10 +277,6 @@ public class ScoringSubsystem extends SubsystemBase { // Add FeedForward for the
             default:
                 break;
         }
-    }
-
-    @Override
-    public void periodic() {
     }
 
     public double getTargetRPM() {

@@ -39,10 +39,10 @@ public final class Constants {
         public static final int FRONT_RIGHT_STEER_MOTOR_ID = 15;
         public static final int BACK_RIGHT_STEER_MOTOR_ID = 11;
 
-        public static final int FRONT_LEFT_STEER_ABSOLUTE_ENCODER_ID = 9;
-        public static final int BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID = 12;
-        public static final int FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 10;
-        public static final int BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 11;
+        public static final int FRONT_LEFT_STEER_ABSOLUTE_ENCODER_ID = 22;
+        public static final int BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID = 21;
+        public static final int FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 23;
+        public static final int BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 24;
 
         public static final int PDU_ID = 24;
     }
@@ -113,10 +113,11 @@ public final class Constants {
 
 
         //THESE ONES ARE FOR THE 2025 ROBOT 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.607456392002714;//2.66 + Math.PI;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -0.6902913545485385;//5.24 - Math.PI;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.06934008285773;//0.61 + Math.PI;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.2779614700101773;//5.20 - Math.PI;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -1.0998642249140047;//2.66 + Math.PI;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.1475731030398975;//5.24 - Math.PI;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.6120583343663708;//0.61 + Math.PI; 1.0737865515199487
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -0.9955535313377811;//5.20 - Math.PI;
+
 
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for NEOs to drive
@@ -160,8 +161,8 @@ public final class Constants {
         public static final double INTAKE_SPEED = 2000; //Need to tune these big time
         public static final double FEEDER_SPEED = 0.7; //Need to tune these big time
         public static final double FEEDER_CLEAR_SPEED = 0.6; //Need to tune these big time
-        public static final double LOW_SHOT_RPM = 3500.0;  // tune me
-        public static final double HIGH_SHOT_RPM = 6000.0; // tune me
+        public static final double LOW_SHOT_RPM = 1000.0;  // tune me
+        public static final double HIGH_SHOT_RPM = 3500.0; // tune me
         public static final double RPM_TOLERANCE = 150.0;  // considered "at speed"
         public static double targetRPM = 0;
         public double basePower = 0; // for feedforward

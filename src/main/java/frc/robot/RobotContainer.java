@@ -46,8 +46,8 @@ public class RobotContainer {
     SetScoringCommand IntakeStageTwo = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.LoadStageTwo, 3);
     SetScoringCommand unload = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.Unload, 3);
     
-    SetScoringCommand ShootHigh = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.ShootHigh, 3);
-    SetScoringCommand ShootLow = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.ShootLow, 3);
+    SetScoringCommand ShootHigh = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.ShootHigh, 5);
+    SetScoringCommand ShootLow = new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.ShootLow, 5);
 
     //------------ PATH PLANNER COMMANDS ---------------
     NamedCommands.registerCommand("SHOOT_HIGH", ShootHigh);
@@ -57,16 +57,16 @@ public class RobotContainer {
 
 
     //----------------------- CONTROLLER BINDS ---------------------
-    new JoystickButton(driver, Buttons.RIGHT_BUMPER).onTrue(IntakeStageOne);
+    new JoystickButton(driver, Buttons.RIGHT_BUMPER).onTrue(new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.LoadStageOne, 3));
     new JoystickButton(driver, Buttons.LEFT_BUMPER).onTrue(IntakeStageTwo);
     new JoystickButton(driver, Buttons.Y).onTrue(unload);
 
-    new JoystickButton(gunner, Buttons.A).onTrue(ShootLow);
+    new JoystickButton(gunner, Buttons.A).onTrue(new SetScoringCommand(scoringSubsystem, ScoringSubsystem.ScoringStates.ShootLow, 3));
     new JoystickButton(gunner, Buttons.Y).onTrue(ShootHigh);
     
 
     //------------------------- AUTO CHOOSER --------------------
-    autoChooser = AutoBuilder.buildAutoChooser("One By One"); // TODO add the default auto.
+    autoChooser = AutoBuilder.buildAutoChooser("Leave"); // TODO add the default auto.
     SmartDashboard.putData("Auto Chooser", autoChooser);
     
     

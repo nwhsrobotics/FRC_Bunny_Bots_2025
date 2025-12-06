@@ -18,6 +18,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -308,10 +309,16 @@ public class SwerveSubsystem extends SubsystemBase {
         Logger.recordOutput("swerve.steer.back.left.abs", backLeft.getAbsoluteEncoderRad());
         Logger.recordOutput("swerve.steer.back.right.abs", backRight.getAbsoluteEncoderRad());
 
-        Logger.recordOutput("swerve.steer.front.left.absraw", frontLeft.getAbsoluteEncoderRadRaw());
-        Logger.recordOutput("swerve.steer.front.right.absraw", frontRight.getAbsoluteEncoderRadRaw());
-        Logger.recordOutput("swerve.steer.back.left.absraw", backLeft.getAbsoluteEncoderRadRaw());
-        Logger.recordOutput("swerve.steer.back.right.absraw", backRight.getAbsoluteEncoderRadRaw());
+        //Logger.recordOutput("swerve.steer.front.left.absraw", frontLeft.getAbsoluteEncoderRadRaw());
+        //Logger.recordOutput("swerve.steer.front.right.absraw", frontRight.getAbsoluteEncoderRadRaw());
+        //Logger.recordOutput("swerve.steer.back.left.absraw", backLeft.getAbsoluteEncoderRadRaw());
+        //Logger.recordOutput("swerve.steer.back.right.absraw", backRight.getAbsoluteEncoderRadRaw());
+
+        SmartDashboard.putNumber("swerve.steer.front.left.absraw", frontLeft.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("swerve.steer.front.right.absraw", frontRight.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("swerve.steer.back.left.absraw", backLeft.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("swerve.steer.back.right.absraw", backRight.getAbsoluteEncoderRadRaw());
+
 
         // Log travel velocity.
         Logger.recordOutput("swerve.drive.front.left.velocity", frontLeft.getDriveVelocity());
@@ -362,7 +369,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void updateOdometry() {
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
 
-        addVisionMeasurement(LimelightConstants.llFront, 0.00, 0.00, 9999999);
+        //addVisionMeasurement(LimelightConstants.llFront, 0.00, 0.00, 9999999);
         //dont need the back one most likely
         //addVisionMeasurement(LimelightConstants.llBack, 0.2, 0.2, 9999999);
     }
