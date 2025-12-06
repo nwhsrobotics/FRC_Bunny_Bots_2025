@@ -79,9 +79,9 @@ public final class Constants {
 
     public static final class DriveConstants {
         // left-to-right distance between the drivetrain wheels, should be measured from center to center AND IN METERS
-        public static final double kTrackWidth = 0.5715;
+        public static final double kTrackWidth = 0.5461;
         // front-back distance between drivetrain wheels, should be measured from center to center AND IN METERS 
-        public static final double kWheelBase = 0.5715;
+        public static final double kWheelBase = 0.4445;
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front left
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front right
@@ -155,7 +155,7 @@ public final class Constants {
     }
 
     public static final class ScoringConstants {
-        public static final double PIVOT_GEAR_RATIO = 52;
+        public static final double PIVOT_GEAR_RATIO = 75;
 
         public static final double INTAKE_SPEED = 2000; //Need to tune these big time
         public static final double FEEDER_SPEED = 0.7; //Need to tune these big time
