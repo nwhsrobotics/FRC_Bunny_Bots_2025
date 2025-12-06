@@ -18,17 +18,17 @@ public final class Constants {
 
     public static final class CANAssignments {
         // SCORING SUBSYSTEM MOTOR ID
-        public static final int PIVOT_ARM_MOTOR_ID = 0;
-        public static final int INTAKE_MOTOR_ID = 0;
+        public static final int PIVOT_ARM_MOTOR_ID = 30;
+        public static final int INTAKE_MOTOR_ID = 2;
 
-        public static final int INDEX_MOTOR_ID = 0;
+        public static final int INDEX_MOTOR_ID = 7;
         
-        public static final int FLYWHEEL_ONE_ID = 0;
-        public static final int FLYWHEEL_TWO_ID = 0;
+        public static final int FLYWHEEL_ONE_ID = 16;
+        public static final int FLYWHEEL_TWO_ID = 18;
         
-        public static final int FEEDER_MOTOR_ID = 0;
+        public static final int FEEDER_MOTOR_ID = 1;
 
-        // SWERVE MOTOR ID
+        // SWERVE MOOR ID
         public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 5;
         public static final int BACK_LEFT_DRIVE_MOTOR_ID = 3;
         public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 6;
